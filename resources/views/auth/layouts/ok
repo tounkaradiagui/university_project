@@ -1,0 +1,146 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Reset Password') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('password.email') }}">
+                        @csrf
+
+                        <div class="row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Send Password Reset Link') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+
+
+
+
+
+
+
+"nom" => $row['nom'],
+"prenom" => $row['prenom'],
+"email" => $row['email'],
+"telephone" => $row['telephone'],
+"adresse" => $row['adresse'],
+"role" => 2, //User1,
+"status" => 1,
+'password' => Hash::make('password')
+
+
+if(Auth::check() && Auth::user()->status)
+{
+    $banned = Auth::user()->status == "1";
+    Auth::logout();
+
+    if($banned == 1)
+    {
+        $message = 'your account has banned contact admin';
+    }
+    return redirect()->route('login')->with('status', $message)->withErrors(['email' => 'your account has banned contact admin']);
+}
+
+
+
+
+public function login(Request $request)
+{
+    $input = $request->all();
+    $this->validate($request, [
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
+    {
+        if(auth()->user()->is_admin == 0)
+        {
+            return redirect()->route('admin.dashboard');
+        }else{
+            return redirect()->route('users.dashboard');
+        }
+    }else{
+        return redirect()->route('login')->with('error', "Votre compte a été desactivé,
+        veuillez contacté l'administrateur !");
+    }
+}
+
+
+
+public function handle(Request $request, Closure $next)
+    {
+        if(auth()->user()->role == 'admin')
+        {
+            return $next($request);
+        }else{
+            return redirect('/home')->with("Vous n'etes pas autoriser à accéder à cette page");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function login(Request $request)
+    {
+        $input = $request->all();
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
+        {
+            if(auth()->user()->role == 'admin')
+            {
+                return redirect()->route('admin.dashboard');
+            }else{
+                return redirect()->route('users.dashboard');
+            }
+        }else{
+            return redirect()->route('login')->with('error', "Votre compte a été desactivé,
+            veuillez contacté l'administrateur !");
+        }
+    }
