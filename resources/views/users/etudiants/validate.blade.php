@@ -1,15 +1,15 @@
-@extends('layouts.master')
+@extends('layouts.usersLayouts')
 @section('content')
 
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Modifier un dossier étudiant</h1>
+        <h1 class="h3 mb-0 text-gray-800">Modifier un compte utilisateur</h1>
 
         <div class="row">
             <div class="col-md-6">
-                <a href="{{route('list-etudiants')}}" class="btn btn-sm btn-primary">
+                <a href="{{route('list.etudiants')}}" class="btn btn-sm btn-primary">
                     <i class="fas fa-arrow-left fa-sm"></i> Liste
                 </a>
             </div>
@@ -29,7 +29,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Formulaire de modification</h6>
         </div>
 
-        <form method="POST" action="{{ url('update/'.$editEtud->id) }}">
+        <form method="POST" action="{{ url('update/inscrit/'.$validate->id) }}">
             @csrf
             @method('PUT')
             <div class="card">
@@ -42,11 +42,12 @@
                             <span style="color:red;">*</span>Matricule</label>
                             <input 
                                 type="text" 
+                                readonly
                                 class="form-control form-control-user @error('matricule') is-invalid @enderror" 
                                 id="exampleMatricule"
                                 placeholder="matricule" 
                                 name="matricule" 
-                                value="{{ old('matricule') ? old('matricule') : $editEtud->matricule }}">
+                                value="{{ old('matricule') ? old('matricule') : $validate->matricule }}">
 
                             @error('matricule')
                                 <span class="text-danger">{{$message}}</span>
@@ -62,7 +63,8 @@
                                 id="exampleNom"
                                 placeholder="Nom" 
                                 name="nom" 
-                                value="{{ old('nom') ? old('nom') : $editEtud->nom }}">
+                                value="{{ old('nom') ? old('nom') : $validate->nom }}"
+                                readonly>
 
                             @error('nom')
                                 <span class="text-danger">{{$message}}</span>
@@ -73,12 +75,13 @@
                         <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                             <span style="color:red;">*</span>Prénom</label>
                             <input 
-                                type="text" 
+                                type="text"
+                                readonly 
                                 class="form-control form-control-user @error('prenom') is-invalid @enderror" 
                                 id="examplePrenom"
                                 placeholder="Prénom" 
                                 name="prenom" 
-                                value="{{ old('prenom') ? old('prenom') : $editEtud->prenom }}">
+                                value="{{ old('prenom') ? old('prenom') : $validate->prenom }}">
 
                             @error('prenom')
                                 <span class="text-danger">{{$message}}</span>
@@ -89,13 +92,29 @@
                         <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                             <span style="color:red;">*</span>Date de naissance</label>
                             <input 
-                                type="date" 
+                                type="text" 
                                 class="form-control form-control-user @error('date_de_naissance') is-invalid @enderror" 
                                 id="exampleDate"
                                 name="date_de_naissance" 
-                                value="{{ old('date_de_naissance') ? old('date_de_naissance') : $editEtud->date_de_naissance }}">
+                                value="{{ old('date_de_naissance') ? old('date_de_naissance') : $validate->date_de_naissance }}">
 
                             @error('date_de_naissance')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+
+
+                        {{-- Age --}}
+                        <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                            <span style="color:red;">*</span>Age</label>
+                            <input 
+                                type="text" 
+                                class="form-control form-control-user @error('age') is-invalid @enderror" 
+                                id="exampleDate"
+                                name="age" 
+                                value="{{ old('age') ? old('age') : $validate->age }}">
+
+                            @error('age')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
@@ -105,11 +124,12 @@
                             <span style="color:red;">*</span>Email</label>
                             <input 
                                 type="email" 
+                                readonly
                                 class="form-control form-control-user @error('email') is-invalid @enderror" 
                                 id="exampleEmail"
                                 placeholder="Email" 
                                 name="email" 
-                                value="{{ old('email') ? old('email') : $editEtud->email }}">
+                                value="{{ old('email') ? old('email') : $validate->email }}">
 
                             @error('email')
                                 <span class="text-danger">{{$message}}</span>
@@ -125,7 +145,7 @@
                                 id="exampleMobile"
                                 placeholder="Téléphone" 
                                 name="telephone" 
-                                value="{{ old('telephone') ? old('telephone') : $editEtud->telephone }}">
+                                value="{{ old('telephone') ? old('telephone') : $validate->telephone }}">
 
                             @error('telephone')
                                 <span class="text-danger">{{$message}}</span>
@@ -141,7 +161,7 @@
                                 id="exampleAdresse"
                                 placeholder="Adresse" 
                                 name="adresse" 
-                                value="{{ old('adresse') ? old('adresse') : $editEtud->adresse }}">
+                                value="{{ old('adresse') ? old('adresse') : $validate->adresse }}">
 
                             @error('adresse')
                                 <span class="text-danger">{{$message}}</span>
@@ -149,14 +169,12 @@
                         </div>
 
                         {{-- Statut --}}
+                      
+
                         <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                             <span style="color:red;">*</span>Statut</label>
-                            <select class="form-control form-control-user @error('statut') is-invalid @enderror" name="statut">
-                                <option selected disabled>Selectionner le statut</option>
-                                <option value="REGULIER">Régulier</option>
-                                <option value="LIBRE">Non régulier</option>
-                                <option value="PROFESSIONNEL">Professionnel</option>
-                            </select>
+                            <input type="text" name="statut" value="{{ $validate->statut}}" readonly class="form-control">
+                            
                             @error('statut')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -226,7 +244,7 @@
                         <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                             <span style="color:red;">*</span>Diplome D'entré</label>
                             <select class="form-control form-control-user @error('diplome') is-invalid @enderror" name="diplome">
-                                <option selected disabled>Selectionner diplome</option>
+                                <option selected disabled>Select diplome</option>
                                 <option value="BAC">BAC</option>
                                 <option value="DUT">DUT</option>
                                 <option value="BT">BT</option>
@@ -240,7 +258,7 @@
                         <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                             <span style="color:red;">*</span>Résidence de l'étudiant</label>
                             <select class="form-control form-control-user @error('residence') is-invalid @enderror" name="residence">
-                                <option selected disabled>Selectionner la residence</option>
+                                <option selected disabled>Select residence</option>
                                 <option value="Campus">Campus</option>
                                 <option value="Location">Location</option>
                                 <option value="Chez un parent">Chez un parent</option>
@@ -253,8 +271,8 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-success btn-user float-right mb-3">Sauvegarder</button>
-                    <a class="btn btn-primary float-right mr-3 mb-3" href="{{ route('list-inscrit') }}">Annuler</a>
+                    <button type="submit" class="btn btn-success btn-user float-right mb-3">Save</button>
+                    <a class="btn btn-primary float-right mr-3 mb-3" href="{{ route('list-etudiants') }}">Cancel</a>
                 </div>
             </div>
         </form>

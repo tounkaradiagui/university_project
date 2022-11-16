@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Etudiant;
 use App\Models\User;
-use App\Imports\EtudiantsImport;
 use App\Exports\EtudiantsExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Faculte;
-use App\Models\Niveau;
-use App\Models\Semestre;
-use App\Models\Filiere;
-use Illuminate\Http\Request;
 
 class EtudiantController extends Controller
 {
@@ -25,26 +20,10 @@ class EtudiantController extends Controller
      */
     public function index()
     {
+        $users = Auth::user(); //authenticate user
+        $auth = User::where('id', $users->id)->first(); //getting the auth user id
         $etudiants = Etudiant::where('etat_candidat', 'non_inscrit')->get(); 
-        return view('admin.etudiants.index', compact('etudiants'));
-    }
-
-    public function importEtudiants()
-    {
-        return view('admin.etudiants.import');
-    }
-
-
-    public function uploadEtudiant(Request $request)
-    {
-        Excel::import(new EtudiantsImport, $request->file);
-        
-        return redirect()->route('list-etudiants')->with('success', 'Etudiant Imported Successfully');
-    }
-
-    public function exportEtudiants()
-    {
-        return Excel::download(new EtudiantsExport, 'etudiants.xlsx');
+        return view('users.etudiants.index', compact('etudiants'));
     }
 
     /**
@@ -52,9 +31,11 @@ class EtudiantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createEtudiant()
+
+
+    public function create()
     {
-        return view('admin.etudiants.create');
+        return view('users.etudiants.create');
     }
 
     /**
@@ -63,7 +44,7 @@ class EtudiantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeRegist(Request $request)
     {
         $request->validate([
             'matricule' => 'required',
@@ -89,7 +70,7 @@ class EtudiantController extends Controller
                 'email' => $request->email,
                 'telephone' => $request->telephone,
                 'statut' => $request->statut,
-                'etat_candidat' => 'non_inscrit',
+                'etat_candidat' => 'inscrit',
                 'adresse' => $request->adresse,
                 'date_de_naissance' => $request->date_de_naissance,              
                 'sexe' => $request->sexe,              
@@ -103,99 +84,33 @@ class EtudiantController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('list-etudiants')->with('success', "L'étudiant a été enregistré avec succès !");
+            return redirect()->route('list.etudiants')->with('success', "L'étudiant a été enregistré avec succès !");
 
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
         }
+
+
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\c  $c
-     * @return \Illuminate\Http\Response
-     */
-    public function show(c $c)
+    public function exportEtudiantsTo()
     {
-        //
+        return Excel::download(new EtudiantsExport, 'Liste de nouveaux bacheliers.xlsx');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\c  $c
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(c $c)
+
+
+    public function editEtud($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\c  $c
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, c $c)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\c  $c
-     * @return \Illuminate\Http\Response
-     */
-    public function inscrit()
-    {
-        $inscrits = Etudiant::where('etat_candidat', 'inscrit')->get(); 
-        return view('admin.etudiants.inscrit', compact('inscrits'));
-    }
-
-    public function niveauIndex()
-    {
-        return view('admin.etudiants.niveau');
+        $try = Etudiant::all();
+        $validate = Etudiant::findOrFail($id);
+        return view('users.etudiants.validate', compact('validate', 'try'));
     }
 
 
-    public function getFaculty()
-    {
-        $facultes = Faculte::all();
-        return view('admin.facultes.index', compact('facultes'));
-    }
-
-    public function storeFaculty(Request $request)
-    {
-        $facultes = $request->validate([
-            'nom' => 'required',
-            'sigle' => 'required',
-
-        ]);
-
-        if($facultes)
-        {
-            $facultes_create = Faculte::create([
-                'nom' =>$request ['nom'],
-                'sigle' =>$request ['sigle'],
-            ]);
-        }
-
-        return redirect()->back()->with('success', 'La faculté a été ajoutée !');
-    }
-
-    public function editEtudiant($id)
-    {
-        $editEtud = Etudiant::findOrFail($id);
-        return view('admin.etudiants.edit', compact('editEtud'));
-    }
-
-
-    public function updateEtudiant(Request $request, $id)
+    public function updat(Request $request, $id)
     {
 
         $valideData = $request->validate([
@@ -204,10 +119,10 @@ class EtudiantController extends Controller
             'nom'=>"required",
             'prenom'=>"required",
             'date_de_naissance'=>"required",
+            'age'=>"required",
             'email'=>"required",
             'adresse'=>"required",
             'telephone'=>"required",
-            'statut'=>"required",
             'faculte'=>"required",
             'niveau'=>"required",
             'semestre'=>"required",
@@ -242,28 +157,53 @@ class EtudiantController extends Controller
             );
         }
 
-        return redirect()->route('list-inscrit')->with('success', "L'inscription de l'étudiant a été validée");
+        return redirect()->route('list.etudiants')->with('success', "L'inscription de l'étudiant a été validée");
 
     }
 
-    public function deleteEtudiant(int $inscrit_id)
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $etudiant_inscrit = Etudiant::findOrFail($inscrit_id);
-        
-        $etudiant_inscrit->delete();
-        return redirect()->back()->with('success', 'La suppression a été effectuée');
+        //
     }
 
-
-    // public function importEtud()
-    // {
-    //     return view('admin.etudiants.import');
-    // }
-
-    public function uploadUsers(Request $request)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        Excel::import(new UsersImport, $request->file);
-        
-        return redirect()->route('users.index')->with('success', 'User Imported Successfully');
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

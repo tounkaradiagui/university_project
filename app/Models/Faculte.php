@@ -14,8 +14,8 @@ class Faculte extends Model
         'sigle'
     ];
 
-    public function etudiants()
-    {
-       return $this->hasMany(Faculte::class, 'faculte_id');
-    }
+    // public function etudiants()
+    // {
+    //    return $this->hasMany(Faculte::class, 'faculte_id');
+    // }
 }

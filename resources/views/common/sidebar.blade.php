@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('/dashboard')}}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-university"></i>
         </div>
@@ -36,8 +36,8 @@
         <div id="étudiants" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Etudiants:</h6>
-                <a class="collapse-item" href="{{route('create-etudiants')}}">Inscriptions</a>
-                <a class="collapse-item" href="{{route('list-etudiants')}}">Liste des étudiants</a>
+                <a class="collapse-item" href="{{route('list-etudiants')}}">Bacheliers CENOU</a>
+                <a class="collapse-item" href="{{route('list-inscrit')}}">Néo bacheliers inscris</a>
                 <a class="collapse-item" href="{{ route('import-etudiants') }}">Importer</a>
             </div>
         </div>
@@ -54,16 +54,16 @@
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#établissements" aria-expanded="true" aria-controls="établissements">
-            <i class="fas fa-folder"></i>
-            <span>Master</span>
+            <i class="fas fa-list"></i>
+            <span>Bacheliers par FAC</span>
         </a>
         <div id="établissements" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Facultés :</h6>
-                <a class="collapse-item" href="{{route('list-faculty')}}">Facultés</a>
-                <a class="collapse-item" href="cards.html">Niveaux</a>
-                <a class="collapse-item" href="cards.html">Semestres</a>
-                <a class="collapse-item" href="cards.html">Filières</a>
+                <a class="collapse-item" href="{{route('bacheliers.fasso')}}">FASSO</a>
+                <a class="collapse-item" href="{{route('bacheliers.fages')}}">FAGES</a>
+                <a class="collapse-item" href="{{route('bacheliers.iufp')}}">IUFP</a>
+                <a class="collapse-item" href="{{route('bacheliers.fama')}}">FAMA</a>
             </div>
         </div>
     </li>
@@ -78,7 +78,7 @@
     
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#utilisateurs" aria-expanded="true" aria-controls="utilisateurs">
-            <i class="fas fa-users"></i>
+            <i class="fas fa-fw fa-wrench"></i>
             <span>Gérer utilisateurs</span>
         </a>
         <div id="utilisateurs" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -87,8 +87,7 @@
                <a class="collapse-item" href="{{route('users.index')}}">Voir la liste</a>
                 <a class="collapse-item" href="{{route('users.create')}}">Ajouter un nouvel</a>
                 <a class="collapse-item" href="{{route('import')}}">Importer</a>
-                <a class="collapse-item" href="cards.html">Roles</a>
-                <a class="collapse-item" href="cards.html">Permissions</a>
+                
             </div>
         </div>
     </li>
@@ -97,7 +96,7 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Utilities Collapse Menu -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
@@ -113,18 +112,11 @@
                 <a class="collapse-item" href="utilities-other.html">Other</a>
             </div>
         </div>
-    </li>
+    </li> -->
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Addons
-    </div>
-
+   
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
             aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
@@ -142,20 +134,13 @@
                 <a class="collapse-item" href="blank.html">Blank Page</a>
             </div>
         </div>
-    </li>
-
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
-    </li>
+    </li> -->
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="{{route('create-etudiants')}}">
             <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
+            <span>Inscription</span></a>
     </li>
 
     <!-- Divider -->

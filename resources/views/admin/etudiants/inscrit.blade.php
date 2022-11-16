@@ -5,7 +5,7 @@
 
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Liste bacheliers</h1>
+    <h1 class="h3 mb-0 text-gray-800">Etudiants</h1>
     <div class="row">
         <div class="col-md-4">
             <a href="{{route('create-etudiants')}}" class="btn btn-sm btn-success">
@@ -17,6 +17,7 @@
                 <i class="fas fa-arrow-down"></i> Importé depuis excel
             </a>
         </div>
+
         <div class="col-md-4">
             <a href="{{route('export-etudiants')}}" class="btn btn-sm btn-success">
                 <i class="fas fa-check"></i> Exporté vers Excel
@@ -33,7 +34,7 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Liste de nouveaux bacheliers 2022 - 2023</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Tous les étudiants</h6>
 
     </div>
     <div class="card-body">
@@ -61,38 +62,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                        @foreach($etudiants as $etudiant)
+                        @foreach($inscrits as $inscrit)
                         <tr>
-                            <td>{{ $etudiant->matricule }}</td>
-                            <td>{{ $etudiant->nom }}</td>
-                            <td>{{ $etudiant->prenom }}</td>
-                            <td>{{ $etudiant->sexe }}</td>
-                            <td>{{ $etudiant->date_de_naissance }}</td>
-                            <td>{{ $etudiant->age }}</td>
-                            <td>{{ $etudiant->lieu_de_naissance }}</td>
-                            <td>{{ $etudiant->telephone }}</td>
-                            <td>{{ $etudiant->email }}</td>
-                            <td>{{ $etudiant->adresse }}</td>
-                            <td>{{ $etudiant->faculte}}</td>
-                            <td>{{ $etudiant->niveau}}</td>
-                            <td>{{ $etudiant->semestre}}</td>
-                            <td>{{ $etudiant->filiere}}</td>
-                            <td>{{ $etudiant->residence}}</td>
+                            <td>{{ $inscrit->matricule }}</td>
+                            <td>{{ $inscrit->nom }}</td>
+                            <td>{{ $inscrit->prenom }}</td>
+                            <td>{{ $inscrit->sexe }}</td>
+                            <td>{{ $inscrit->date_de_naissance }}</td>
+                            <td>{{ $inscrit->age }}</td>
+                            <td>{{ $inscrit->lieu_de_naissance }}</td>
+                            <td>{{ $inscrit->telephone }}</td>
+                            <td>{{ $inscrit->email }}</td>
+                            <td>{{ $inscrit->adresse }}</td>
+                            <td>{{ $inscrit->faculte}}</td>
+                            <td>{{ $inscrit->niveau}}</td>
+                            <td>{{ $inscrit->semestre}}</td>
+                            <td>{{ $inscrit->filiere}}</td>
+                            <td>{{ $inscrit->residence}}</td>
                             <td>
-                                @if ($etudiant->statut == 'REGULIER')
+                                @if ($inscrit->statut == 'REGULIER')
                                     <span class="badge badge-success">Régulier</span>
-                                @elseif ($etudiant->statut == 'LIBRE')
+                                @elseif ($inscrit->statut == 'LIBRE')
                                     <span class="badge badge-warning">Candidat libre</span>
-                                @elseif ($etudiant->statut == 'PROFESSIONNEL')
+                                @elseif ($inscrit->statut == 'PROFESSIONNEL')
                                     <span class="badge badge-primary">Professionnel</span>
                                 @endif
                             </td>
                             <td style="display: flex">
-                                <a href="{{url('edit-etudiant/'.$etudiant->id)}}"
+                                <a href="{{url('edit-etudiant/'.$inscrit->id)}}"
                                     class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                <a class="btn btn-danger m-2"  href="{{url('/inscritible/'.$inscrit->id.'/delete')}}" 
+                                onclick="return confirm('Voulez-vous vraiment supprimer cet étudiant ?')" 
+                                class="btn btn-danger btn-sm" >
                                     <i class="fas fa-trash"></i>
                                 </a>
                                 <a class="btn btn-success m-2" href="#" data-toggle="modal" data-target="#deleteModal">
@@ -108,7 +111,6 @@
                 </tbody>
             </table>
 
-         {{--   {{ $users->links() }} --}}
         </div>
     </div>
 </div>

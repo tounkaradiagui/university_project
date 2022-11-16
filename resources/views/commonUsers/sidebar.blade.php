@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('/home')}}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-university"></i>
         </div>
@@ -28,6 +28,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
+
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#étudiants" aria-expanded="true" aria-controls="étudiants">
             <i class="fas fa-users"></i>
@@ -36,8 +37,9 @@
         <div id="étudiants" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Etudiants:</h6>
-                <a class="collapse-item" href="buttons.html">Liste des étudiants</a>
-                <a class="collapse-item" href="cards.html">Importer</a>
+                <a class="collapse-item" href="{{route('registration.etudiants')}}">Inscription</a>
+                <a class="collapse-item" href="{{route('list.etudiants')}}">Bacheliers CENOU</a>
+                <a class="collapse-item" href="{{route('etudiants.validate')}}">Néo-bachelier inscris</a>
             </div>
         </div>
     </li>
@@ -50,57 +52,29 @@
         Facultés
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#établissements" aria-expanded="true" aria-controls="établissements">
-            <i class="fas fa-university"></i>
-            <span>Gérer les établissements</span>
-        </a>
-        <div id="établissements" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Facultés :</h6>
-                <a class="collapse-item" href="buttons.html">Voir la liste</a>
-                <a class="collapse-item" href="cards.html">Ajouter</a>
-            </div>
-        </div>
-    </li> -->
-
-   
-
-    
-    <!-- Nav Item - Pages Collapse Menu -->
-    <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="login.html">Login</a>
-                <a class="collapse-item" href="register.html">Register</a>
-                <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
-                <a class="collapse-item" href="404.html">404 Page</a>
-                <a class="collapse-item" href="blank.html">Blank Page</a>
-            </div>
-        </div>
-    </li> -->
-
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
+        <a class="nav-link" href="{{route('etudiants.fasso')}}">
+            <i class="fas fa-university"></i>
+            <span>FASSO</span></a>
     </li>
 
-    <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
+        <a class="nav-link" href="{{route('etudiants.fama')}}">
+            <i class="fas fa-university"></i>
+            <span>FAMA</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('etudiants.iufp')}}">
+            <i class="fas fa-university"></i>
+            <span>IUFP</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('etudiants.fages')}}">
+            <i class="fas fa-university"></i>
+            <span>FAGES</span></a>
     </li>
 
     <!-- Divider -->

@@ -16,7 +16,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Importé Etudiants</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Importé Néo-bacheliers</h6>
         </div>
         <form method="POST" action="{{route('uploade-etudiants')}}" enctype="multipart/form-data">
             @csrf
@@ -25,11 +25,11 @@
                     <div class="form-group row">
                         
                         <div class="col-md-12 mb-3 mt-3">
-                            <p>Please Upload CSV in Given Format <a href="{{ asset('files/sample-data-sheet.csv') }}" target="_blank">Sample CSV Format</a></p>
+                            <p>Veuillez importer un fichier uniquement au Format Excel </p>
                         </div>
                         {{-- File Input --}}
                         <div class="col-sm-12 mb-3 mt-3 mb-sm-0">
-                            <span style="color:red;">*</span>File Input(Datasheet)</label>
+                            <span style="color:red;">*</span>Cliquez sur la bannière pour importé</label>
                             <input 
                                 type="file" 
                                 class="form-control form-control-user @error('file') is-invalid @enderror" 

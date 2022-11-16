@@ -14,7 +14,7 @@ class UsersExport implements FromQuery, WithHeadings, WithMapping
     */
     public function query()
     {
-        return User::query();
+        return User::where();
     }
 
     public function headings(): array

@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
+
+    // public function getNonInscrit()
+    // {
+    //     $non_inscrit = Etudiant::where('etat_candidat', 'non_inscrit')->get()->count(); 
+    //     return view('admin.dashboard', comapct('non_inscrit'));
+    // }
+
     public function getProfile()
     {
         return view('admin.profile');

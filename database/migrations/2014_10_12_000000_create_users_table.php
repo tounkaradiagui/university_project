@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->date('date_de_naissance')->nullable();
             $table->string('lieu_de_naissance')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

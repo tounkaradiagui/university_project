@@ -12,10 +12,10 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <a class="btn btn-danger" href=""
-                    onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
+                    onclick="event.preventDefault(); document.getElementById('etudiant-delete-form').submit();">
                     Delete
                 </a>
-                <form id="user-delete-form" method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
+                <form id="etudiant-delete-form" method="POST" action="{{ route('etudiant.destroy', ['inscrit' => $inscrit->id]) }}">
                     @csrf
                     @method('DELETE')
                 </form>

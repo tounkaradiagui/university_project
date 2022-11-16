@@ -22,6 +22,20 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Les routes d'authentification
+Route::middleware('auth')->group(function(){
+
+    //Gestion des utilisateurs
+    Route::resource('users', App\Http\Controllers\UserController::class);
+
+    //Modification des utilisateurs
+    Route::get('/users/status/{user_id}/{status_code}', [UserController::class, 'updateStatus'])->name('users.status.update');
+
+    Route::get('/import-users', [UserController::class, 'importUsers'])->name('import');
+    Route::post('/upload-users', [UserController::class, 'uploadUsers'])->name('upload');
+    Route::get('export/', [UserController::class, 'export'])->name('export');
+});
+
 
 Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
     // Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'getProfile'])->name('detail');
@@ -30,8 +44,8 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function()
 });
 
 Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
-    Route::get('/', [App\Http\Controllers\UserController::class, 'getProfile'])->name('detail');
-    Route::post('/update', [App\Http\Controllers\UserController::class, 'updateProfile'] )->name('update');
+    // Route::get('/', [App\Http\Controllers\UserController::class, 'getProfile'])->name('detail');
+    // Route::post('/update', [App\Http\Controllers\UserController::class, 'updateProfile'] )->name('update');
 });
 
 
@@ -52,11 +66,23 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     Route::post('/update/profile', [App\Http\Controllers\Admin\DashboardController::class, 'updateProfile'] )->name('update');
     Route::post('/change-password', [App\Http\Controllers\Admin\DashboardController::class, 'changePassword'])->name('change-password');
 
+
+
     Route::get('/list-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'index'])->name('list-etudiants');
     Route::get('/create-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'createEtudiant'])->name('create-etudiants');
     Route::post('/save-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'store'])->name('save-etudiants');
+    
     Route::get('edit-etudiant/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'editEtudiant'])->name('admin.etudiant.edit');
     Route::put('update/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'updateEtudiant'])->name('update-etudiant');
+    Route::get('/inscritible/{inscrit_id}/delete', [App\Http\Controllers\Admin\EtudiantController::class, 'deleteEtudiant'])->name('delete-etudiant');
+
+    Route::get('/list-inscrit', [App\Http\Controllers\Admin\EtudiantController::class, 'inscrit'])->name('list-inscrit');
+
+
+    // Route::get('/create-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'createEtudiant'])->name('create-etudiants');
+    // Route::post('/save-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'store'])->name('save-etudiants');
+    // Route::get('edit-etudiant/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'editEtudiant'])->name('admin.etudiant.edit');
+    // Route::put('update/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'updateEtudiant'])->name('update-etudiant');
 
 
 
@@ -66,14 +92,15 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     
     Route::get('/import-etudiants', [App\Http\Controllers\Admin\EtudiantController::class, 'importEtudiants'])->name('import-etudiants');
     Route::post('/upload-etudiants', [App\Http\Controllers\Admin\EtudiantController::class, 'uploadEtudiant'])->name('uploade-etudiants');
-    // Route::get('export/', [UserController::class, 'export'])->name('export');
+    Route::get('/export-etudiants', [App\Http\Controllers\Admin\EtudiantController::class, 'exportEtudiants'])->name('export-etudiants');
 
-});
 
-Route::group(['middleware' => ['auth', 'isVendor']], function(){
-    Route::get('/vendor-dashboard', function() {
-        return view('vendor.dashboard');
-    });
+    Route::get('/list-bachelier-fages', [App\Http\Controllers\Admin\FaculteController::class, 'fagesAdmin'])->name('bacheliers.fages');
+    Route::get('/list-bachelier-fasso', [App\Http\Controllers\Admin\FaculteController::class, 'fassoAdmin'])->name('bacheliers.fasso');
+    Route::get('/list-bachelier-iufp', [App\Http\Controllers\Admin\FaculteController::class, 'iufpAdmin'])->name('bacheliers.iufp');
+    Route::get('/list-bachelier-fama', [App\Http\Controllers\Admin\FaculteController::class, 'famaAdmin'])->name('bacheliers.fama');
+
+
 });
 
 
@@ -81,27 +108,40 @@ Route::group(['middleware' => ['auth', 'isUser']], function(){
     Route::get('/user-dashboard', function() {
         return view('users.dashboard');
     });
+
+    Route::get('/users-home', [App\Http\Controllers\UserController::class, 'getProfile'])->name('detail.users');
+    Route::post('/update', [App\Http\Controllers\UserController::class, 'updateProfile'] )->name('update.users');
+
+
+    Route::get('/registration-etudiant', [App\Http\Controllers\User\EtudiantController::class, 'create'])->name('registration.etudiants');
+    Route::post('/registration-neo-etudiant', [App\Http\Controllers\User\EtudiantController::class, 'storeRegist'])->name('registered.etudiants');
+    // Route::get('/registration-etudiant', [App\Http\Controllers\User\EtudiantController::class, 'index'])->name('registration.etudiants');
+
+
+    Route::get('/list-etudiant-cenou', [App\Http\Controllers\User\EtudiantController::class, 'index'])->name('list.etudiants');
+    Route::get('edit-etudiant-inscrit/{id}', [App\Http\Controllers\User\EtudiantController::class, 'editEtud'])->name('users.etud.edit');
+    Route::put('update/inscrit/{id}', [App\Http\Controllers\User\EtudiantController::class, 'updat'])->name('update-etudiant-inscrit');
+    
+
+    Route::get('/list-etudiant-valide', [App\Http\Controllers\User\InscritController::class, 'index'])->name('etudiants.validate');
+
+
+    Route::get('/list-etudiant-fages', [App\Http\Controllers\User\FaculteController::class, 'fages'])->name('etudiants.fages');
+    Route::get('/list-etudiant-fasso', [App\Http\Controllers\User\FaculteController::class, 'fasso'])->name('etudiants.fasso');
+    Route::get('/list-etudiant-iufp', [App\Http\Controllers\User\FaculteController::class, 'iufp'])->name('etudiants.iufp');
+    Route::get('/list-etudiant-fama', [App\Http\Controllers\User\FaculteController::class, 'fama'])->name('etudiants.fama');
+
+    Route::get('/export-etudiants-to', [App\Http\Controllers\User\EtudiantController::class, 'exportEtudiantsTo'])->name('export.etudiants.to');
+
 });
 
 
 
-//Les routes d'authentification
-Route::middleware('auth')->group(function(){
-
-    //Gestion des utilisateurs
-    Route::resource('users', App\Http\Controllers\UserController::class);
-
-    //Modification des utilisateurs
-    Route::get('/users/status/{user_id}/{status_code}', [UserController::class, 'updateStatus'])->name('users.status.update');
-
-    Route::get('/import-users', [UserController::class, 'importUsers'])->name('import');
-    Route::post('/upload-users', [UserController::class, 'uploadUsers'])->name('upload');
-    Route::get('export/', [UserController::class, 'export'])->name('export');
+Route::group(['middleware' => ['auth', 'isVendor']], function(){
+    Route::get('/vendor-dashboard', function() {
+        return view('vendor.dashboard');
+    });
 });
 
-
-
-// Route::get('/import-student', [StudentController::class, 'importStudents'])->name('import');
-// Route::post('/upload-student', [StudentController::class, 'uploadStudents'])->name('upload');
 
 
