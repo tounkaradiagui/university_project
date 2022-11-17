@@ -71,13 +71,11 @@ class DashboardController extends Controller
         {
             return back()->with('error', "Le mot de passe ne correspond pas, veuillez entrer le bon mot de passe !");
         }
-
-        dd($request->all());
         
-        // User::whereId(auth()->user()->id)->update([
-        //     'password'=> Hash::make($request->new_password)
-        // ]);
+        User::whereId(auth()->user()->id)->update([
+            'password'=> Hash::make($request->new_password)
+        ]);
         
-        // return back()->with('success', "Votre mot de passe a été changé !");
+        return back()->with('success', "Votre mot de passe a été changé !");
     }
 }

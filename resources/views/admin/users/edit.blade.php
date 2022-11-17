@@ -127,8 +127,8 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-success btn-user float-right mb-3">Save</button>
-                    <a class="btn btn-primary float-right mr-3 mb-3" href="{{ route('users.index') }}">Cancel</a>
+                    <button type="submit" class="btn btn-success btn-user float-right mb-3">Sauvegarder</button>
+                    <a class="btn btn-primary float-right mr-3 mb-3" href="{{ route('users.index') }}">Annuler</a>
                 </div>
             </div>
         </form>

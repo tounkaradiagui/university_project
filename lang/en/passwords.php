@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'reset' => 'Your password has been reset!',
-    'sent' => 'We have emailed your password reset link!',
-    'throttled' => 'Please wait before retrying.',
+    'reset' => 'Votre mot de passe a été réinitialisé !',
+    'sent' => 'Nous vous avons envoyé un lien de réinitialisation de votre mot de passe!',
+    'throttled' => 'Veuillez patienter.',
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that email address.",
 

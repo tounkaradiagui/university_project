@@ -102,6 +102,10 @@
 
         </div>
 
+        <div class="text-center mt-5">
+            <h6 class="text-white">Développé par : <a class="text-white" href="https://devdiagui.ml">Diagui TOUNKARA</a></h6>
+        </div>
+
     </div>
 @endsection
 

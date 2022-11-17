@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
+use App\Rules\MatchOldPassword;
 use App\Exports\UsersExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -269,6 +270,48 @@ class UserController extends Controller
 
             $user->update();
             return redirect()->back()->with('success', 'Votre profile a été modifié avec succès !');
+    }
+
+
+
+    public function adminPass()
+    {
+        return view('admin.password');
+    }
+
+
+
+    public function getPassword()
+    {
+        return view('users.change-password');
+    }
+
+
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            #Update Password
+            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+            
+            #Commit Transaction
+            DB::commit();
+
+            #Return To Profile page with success
+            return back()->with('success', 'Votre mot de passe a été changé avec succès.');
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('error', $th->getMessage());
+        }
     }
 
    

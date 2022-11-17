@@ -15,7 +15,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes();
@@ -64,8 +64,8 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
     Route::get('/profile', [App\Http\Controllers\Admin\DashboardController::class, 'getProfile'])->name('detail');
     Route::post('/update/profile', [App\Http\Controllers\Admin\DashboardController::class, 'updateProfile'] )->name('update');
-    Route::post('/change-password', [App\Http\Controllers\Admin\DashboardController::class, 'changePassword'])->name('change-password');
-
+    Route::get('/pass/admin', [App\Http\Controllers\UserController::class, 'adminPass'] )->name('my-pass');
+    Route::post('/update/password', [App\Http\Controllers\UserController::class, 'updatePassword'] )->name('update-pass.admin');
 
 
     Route::get('/list-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'index'])->name('list-etudiants');
@@ -111,6 +111,9 @@ Route::group(['middleware' => ['auth', 'isUser']], function(){
 
     Route::get('/users-home', [App\Http\Controllers\UserController::class, 'getProfile'])->name('detail.users');
     Route::post('/update', [App\Http\Controllers\UserController::class, 'updateProfile'] )->name('update.users');
+
+    Route::get('/change-password', [App\Http\Controllers\UserController::class, 'getPassword'] )->name('pass.users');
+    Route::post('/update', [App\Http\Controllers\UserController::class, 'updatePassword'] )->name('update-pass.users');
 
 
     Route::get('/registration-etudiant', [App\Http\Controllers\User\EtudiantController::class, 'create'])->name('registration.etudiants');
