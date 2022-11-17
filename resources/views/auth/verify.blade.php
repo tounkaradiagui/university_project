@@ -26,7 +26,7 @@
     </div>
 
     <div class="text-center mt-5">
-        <h6 class="text-white">Développé par : <a class="text-white" href="https://devdiagui.ml">Diagui TOUNKARA</a></h6>
+        <h6 class="text-white">Application web de gestion des étudiants || Université de Ségou || Développé par : <a class="text-white" href="https://devdiagui.ml">Diagui TOUNKARA</a> </h6>
     </div>
 </div>
 @endsection

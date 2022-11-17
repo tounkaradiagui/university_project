@@ -69,9 +69,9 @@
                                 <div class="text-center">
                                     <a class="small" href="{{route('password.request')}}">Mot de passe oublié ?</a>
                                 </div>
-                                <div class="text-center">
+                                {{-- <div class="text-center">
                                     <a class="small" href="{{route('register')}}">Créer un compte ici !</a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
 
 
         <div class="text-center mt-5">
-            <h6 class="text-white">Développé par : <a class="text-white" href="https://devdiagui.ml">Diagui TOUNKARA</a></h6>
+            <h6 class="text-white">Application web de gestion des étudiants || Université de Ségou || Développé par : <a class="text-white" href="https://devdiagui.ml">Diagui TOUNKARA</a> </h6>
         </div>
 
     </div>

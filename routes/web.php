@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Etudiant;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// Auth::routes([ 'register' => false ]);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Les routes d'authentification
@@ -37,29 +41,14 @@ Route::middleware('auth')->group(function(){
 });
 
 
-Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
-    // Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'getProfile'])->name('detail');
-    // Route::post('/update', [App\Http\Controllers\Admin\DashboardController::class, 'updateProfile'] )->name('update');
-    // Route::post('/change-password', [App\Http\Controllers\Admin\DashboardController::class, 'changePassword'])->name('change-password');
-});
-
-Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
-    // Route::get('/', [App\Http\Controllers\UserController::class, 'getProfile'])->name('detail');
-    // Route::post('/update', [App\Http\Controllers\UserController::class, 'updateProfile'] )->name('update');
-});
-
-
-Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
-    Route::get('/', [App\Http\Controllers\Vendor\DashboardController::class, 'getProfile'])->name('detail');
-    Route::post('/update', [App\Http\Controllers\Vendor\DashboardController::class, 'updateProfile'] )->name('update');
-});
-
-
-
 Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
     Route::get('/dashboard', function() {
-        return view('admin.dashboard');
+        $etudiants_non_inscris = Etudiant::where('etat_candidat', 'non_inscrit')->get()->count();
+        $etudiants_inscris = Etudiant::where('etat_candidat', 'inscrit')->get()->count();
+        $etudiants = Etudiant::count();
+        $users = User::count();
+        return view('admin.dashboard', compact('etudiants_non_inscris', 'etudiants_inscris', 'users', 'etudiants'));
     });
 
     Route::get('/profile', [App\Http\Controllers\Admin\DashboardController::class, 'getProfile'])->name('detail');
@@ -72,19 +61,12 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     Route::get('/create-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'createEtudiant'])->name('create-etudiants');
     Route::post('/save-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'store'])->name('save-etudiants');
     
+
     Route::get('edit-etudiant/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'editEtudiant'])->name('admin.etudiant.edit');
     Route::put('update/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'updateEtudiant'])->name('update-etudiant');
     Route::get('/inscritible/{inscrit_id}/delete', [App\Http\Controllers\Admin\EtudiantController::class, 'deleteEtudiant'])->name('delete-etudiant');
 
     Route::get('/list-inscrit', [App\Http\Controllers\Admin\EtudiantController::class, 'inscrit'])->name('list-inscrit');
-
-
-    // Route::get('/create-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'createEtudiant'])->name('create-etudiants');
-    // Route::post('/save-etudiant', [App\Http\Controllers\Admin\EtudiantController::class, 'store'])->name('save-etudiants');
-    // Route::get('edit-etudiant/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'editEtudiant'])->name('admin.etudiant.edit');
-    // Route::put('update/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'updateEtudiant'])->name('update-etudiant');
-
-
 
     Route::get('/list-faculty', [App\Http\Controllers\Admin\EtudiantController::class, 'getFaculty'])->name('list-faculty');
     Route::post('/save-facuulty', [App\Http\Controllers\Admin\EtudiantController::class, 'storeFaculty'])->name('save-faculty');
@@ -106,7 +88,10 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
 Route::group(['middleware' => ['auth', 'isUser']], function(){
     Route::get('/user-dashboard', function() {
-        return view('users.dashboard');
+        $etudiants_users_non_inscris = Etudiant::where('etat_candidat', 'non_inscrit')->get()->count();
+        $etudiants_inscris = Etudiant::where('etat_candidat', 'inscrit')->get()->count();
+        $etudiants = Etudiant::count();
+        return view('users.dashboard', compact('etudiants_users_non_inscris', 'etudiants_inscris', 'etudiants'));
     });
 
     Route::get('/users-home', [App\Http\Controllers\UserController::class, 'getProfile'])->name('detail.users');
