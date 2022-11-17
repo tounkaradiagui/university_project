@@ -20,8 +20,6 @@ class EtudiantController extends Controller
      */
     public function index()
     {
-        $users = Auth::user(); //authenticate user
-        $auth = User::where('id', $users->id)->first(); //getting the auth user id
         $etudiants = Etudiant::where('etat_candidat', 'non_inscrit')->get(); 
         return view('users.etudiants.index', compact('etudiants'));
     }
