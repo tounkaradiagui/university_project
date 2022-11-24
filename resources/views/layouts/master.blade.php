@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{config('app.name', 'My_university')}} - @yield('title')</title>
+    <title>{{config('app.name', 'Université de Ségou')}} - @yield('title')</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -19,10 +19,45 @@
 
     <!-- Custom styles for this template-->
     <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <!-- <link href="{{asset('admin/css/sb-admin-2.css')}}" rel="stylesheet"> -->
     <!-- <link href="{{asset('admin/css/bootstrap.min.css')}}" rel="stylesheet"> -->
     <link rel="shortcut icon" href="{{asset('admin/img/FSEG.jpg')}}" type="image/x-icon">
     <link href="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <script src="{{asset('admin/vendor/jquery/jquery.slim.min.js')}}"></script>
+    <script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js" 
+    integrity="sha512-eyHL1atYNycXNXZMDndxrDhNAegH2BDWt1TmkXJPoGf1WLlNYt08CSjkqF5lnCRmdm3IrkHid8s2jOUY4NIZVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+
+    <style>
+        section{
+            padding-top:100px;
+        }
+
+        .form-section{
+            padding-left:15px;
+            display:none;
+        }
+
+        .form-section.current{
+            display:inherit;
+        }
+
+        .btn-primary, .btn-success{
+            margin-top:15px;
+        }
+
+        .parsley-errors-list{
+            margin: 2px 0 3px;
+            padding: 0;
+            list-style-type:none;
+            color:red;
+        }
+    </style>
 
 
 </head>
@@ -102,6 +137,7 @@
 
     <!-- Core plugin JavaScript-->
     <script src="{{asset('admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    
 
     <!-- Custom scripts for all pages-->
     <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
@@ -120,6 +156,119 @@
 
     <!-- Page level custom scripts -->
     <script src="{{asset('admin/js/demo/datatables-demo.js')}}"></script>
+
+
+    <script>
+        $(function () {
+           var $sections = $('.form-section');
+
+           function navigateTo(index){
+                $sections.removeClass('current').eq(index).addClass('current');
+                $('.form-navigation .previous').toggle(index>0);
+
+                var atTheEnd = index >= $sections.length - 1;
+                $('.form-navigation .next').toggle(!atTheEnd);
+                $('.form-navigation [type=submit]').toggle(atTheEnd);
+           }
+
+
+
+           function curIndex()
+            {
+                return $sections.index($sections.filter('.current'));
+
+            }
+
+            $('.form-navigation .previous').click(function(){
+                navigateTo(curIndex()-1);
+            });
+
+            $('.form-navigation .next').click(function(){
+                $('.contact-form').parsley().whenValidate({
+                    group: 'block-' + curIndex()
+                }).done(function(){
+                    navigateTo(curIndex()+1);
+                });
+                
+            });
+
+            $sections.each(function(index,section){
+                $(section).find(':input').attr('data-parsley-group','block-'+index);
+
+                
+            });
+            
+            navigateTo(0);
+        });
+    </script>
+
+    <script>
+        $(function(e){
+            $("#chkCheckAll").click(function(){
+                $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+            });
+
+            $("#deleteAllSelectRecord").click(function(e){
+                e.preventDefault();
+
+                var allids = [];
+
+                $("input:checkbox[name=ids]:checked").each(function(){
+                    allids.push($(this).val());
+                });
+
+
+                $.ajax({
+                    url:"{{route('delete.etudiants')}}",
+                    type:"DELETE",
+                    data:{
+                        _token:$("input[name=_token]").val(),
+                        ids:allids
+                    },
+
+                    success:function(response){
+                        $.each(allids, function(key,val){
+                            $("#sid"+val).remove();
+                        })
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        $('#studentForm').submit(function(e){
+            e.preventDefault();
+
+            let nom = $(#nom).val();
+            let prenom = $(#prenom).val();
+            let email = $(#email).val();
+            let phone = $(#phone).val();
+            let _token = $("input[name=_token]").val();
+
+            $.ajax({
+                url:"{{route('add.students')}}",
+                type:"POST",
+                data:{
+                    nom:nom,
+                    prenom:prenom,
+                    email:email,
+                    phone:phone,
+                    _token:_token
+                },
+                success:function(response)
+                {
+                    if(response)
+                    {
+                        $("#dataTable tbody").prepend('<tr><td>'+ response.nom+'</td><td>'+response.prenom+'</td><td>'+response.email+'</td><td>'+response.phone+'</td></tr>');
+                        $(#"studentForm")[0].reset();
+                        $(#"exampleModal").modal('hide');
+                    }
+                }
+            });
+        });
+    </script>
 
 
 </body>

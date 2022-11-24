@@ -84,7 +84,7 @@
                                 @endif
                             </td>
                             <td style="display: flex">
-                                <a class="btn btn-primary m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                <a class="btn btn-primary m-2" href="{{route('show.etudiants.details', $validateData->id)}} ">
                                     <i class="fas fa-info"></i>
                                 </a>
                             </td>

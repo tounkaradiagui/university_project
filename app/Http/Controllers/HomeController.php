@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\File;
 use App\Models\Etudiant;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -32,7 +33,11 @@ class HomeController extends Controller
          
         if ($users->role == 'admin')
         {
-            return view('admin.dashboard');
+            $etudiants_non_inscris = Etudiant::where('etat_candidat', 'non_inscrit')->get()->count();
+            $etudiants_inscris = Etudiant::where('etat_candidat', 'inscrit')->get()->count();
+            $etudiants = Etudiant::count();
+            $users = User::count();
+            return view('admin.dashboard', compact('etudiants_non_inscris', 'etudiants_inscris', 'etudiants', 'users'));
         }
 
 
@@ -51,7 +56,7 @@ class HomeController extends Controller
         }
 
         else{
-            return view('login');
+            return view('auth.login');
         }
     }
 

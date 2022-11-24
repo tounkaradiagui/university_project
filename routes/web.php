@@ -50,6 +50,8 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
         $users = User::count();
         return view('admin.dashboard', compact('etudiants_non_inscris', 'etudiants_inscris', 'users', 'etudiants'));
     });
+    
+    Route::get('/form', [App\Http\Controllers\Admin\EtudiantController::class, 'form'])->name('form.etudiant');
 
     Route::get('/profile', [App\Http\Controllers\Admin\DashboardController::class, 'getProfile'])->name('detail');
     Route::post('/update/profile', [App\Http\Controllers\Admin\DashboardController::class, 'updateProfile'] )->name('update');
@@ -76,12 +78,18 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     Route::post('/upload-etudiants', [App\Http\Controllers\Admin\EtudiantController::class, 'uploadEtudiant'])->name('uploade-etudiants');
     Route::get('/export-etudiants', [App\Http\Controllers\Admin\EtudiantController::class, 'exportEtudiants'])->name('export-etudiants');
 
-
+    
+    
     Route::get('/list-bachelier-fages', [App\Http\Controllers\Admin\FaculteController::class, 'fagesAdmin'])->name('bacheliers.fages');
     Route::get('/list-bachelier-fasso', [App\Http\Controllers\Admin\FaculteController::class, 'fassoAdmin'])->name('bacheliers.fasso');
     Route::get('/list-bachelier-iufp', [App\Http\Controllers\Admin\FaculteController::class, 'iufpAdmin'])->name('bacheliers.iufp');
     Route::get('/list-bachelier-fama', [App\Http\Controllers\Admin\FaculteController::class, 'famaAdmin'])->name('bacheliers.fama');
+    
+    Route::get('/show-etudiants/{student_id}', [App\Http\Controllers\Admin\EtudiantController::class, 'show'])->name('show.details');
+    Route::delete('/delete-etudiants', [App\Http\Controllers\Admin\EtudiantController::class, 'deleteStudent'])->name('delete.etudiants');
 
+    Route::get('/get-students', [App\Http\Controllers\StudentController::class, 'index'])->name('get.students');
+    Route::post('/add-students', [App\Http\Controllers\StudentController::class, 'addStudent'])->name('add.students');
 
 });
 
@@ -103,7 +111,6 @@ Route::group(['middleware' => ['auth', 'isUser']], function(){
 
     Route::get('/registration-etudiant', [App\Http\Controllers\User\EtudiantController::class, 'create'])->name('registration.etudiants');
     Route::post('/registration-neo-etudiant', [App\Http\Controllers\User\EtudiantController::class, 'storeRegist'])->name('registered.etudiants');
-    // Route::get('/registration-etudiant', [App\Http\Controllers\User\EtudiantController::class, 'index'])->name('registration.etudiants');
 
 
     Route::get('/list-etudiant-cenou', [App\Http\Controllers\User\EtudiantController::class, 'index'])->name('list.etudiants');
@@ -120,6 +127,8 @@ Route::group(['middleware' => ['auth', 'isUser']], function(){
     Route::get('/list-etudiant-fama', [App\Http\Controllers\User\FaculteController::class, 'fama'])->name('etudiants.fama');
 
     Route::get('/export-etudiants-to', [App\Http\Controllers\User\EtudiantController::class, 'exportEtudiantsTo'])->name('export.etudiants.to');
+    Route::get('/show-etudiants-inscris/{id}', [App\Http\Controllers\User\EtudiantController::class, 'show'])->name('show.etudiants.details');
+
 
 });
 

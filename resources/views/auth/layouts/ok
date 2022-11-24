@@ -144,3 +144,75 @@ public function handle(Request $request, Closure $next)
             veuillez contacté l'administrateur !");
         }
     }
+
+
+    <!-- ##################### -->
+    {
+        $request->validate([
+            'matricule' => 'required',
+            'nom' => 'required',
+            'prenom' => 'required',
+            'email' => 'required|email',
+            'telephone' => 'required',
+            'date_de_naissance' => 'required',
+            'statut' => 'required',
+            
+        ]);
+        
+        try {
+            DB::beginTransaction();
+            
+            //la forme logique pour enregister les données des étudiants avec laravel
+
+            $create_etudiant = Etudiant::create([
+                'matricule' => $request->matricule,
+                'nom' => $request->nom,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'telephone' => $request->telephone,
+                'statut' => $request->statut,
+                'etat_candidat' => 'non_inscrit',
+                'adresse' => $request->adresse,
+                'date_de_naissance' => $request->date_de_naissance,              
+                'age' => $request->age,              
+                'lieu_de_naissance' => $request->lieu_de_naissance,              
+                'niveau' => $request->niveau,              
+                'faculte' => $request->faculte,              
+                'filiere' => $request->filiere,              
+                'semestre' => $request->semestre,              
+                'diplome' => $request->diplome,              
+                'annee' => $request->annee,              
+                // 'numero_de_place' => $request->numero_de_place,              
+                // 'scolarite' => $request->scolarite,              
+                // 'etablissement' => $request->etablissement,              
+                // 'resultat' => $request->resultat,              
+                // 'mention' => $request->mention,              
+                // 'matricule_def' => $request->matricule_def,              
+                // 'nom_pere' => $request->nom_pere,              
+                // 'prenom_pere' => $request->prenom_pere,              
+                // 'profession_pere' => $request->profession_pere,              
+                // 'telephone_pere' => $request->telephone_pere,              
+                // 'residence_pere' => $request->residence_pere,              
+                // 'nom_mere' => $request->nom_mere,              
+                // 'prenom_mere' => $request->prenom_mere,              
+                // 'profession_mere' => $request->profession_mere,              
+                // 'telephone_mere' => $request->telephone_mere,              
+                // 'residence_mere' => $request->residence_mere,              
+               
+            ]);
+
+            if(!$create_etudiant)
+            {
+                DB::rollBack();
+                return back()->with('error', "Quelque chose s'est mal passée lors de l'enregistrement de données !");
+            }
+
+            DB::commit();
+            return redirect()->route('list-etudiants')->with('success', "L'étudiant a été enregistré avec succès !");
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
+    <!-- ###################### -->

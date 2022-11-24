@@ -23,6 +23,18 @@ class EtudiantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function form()
+    {
+        return view('admin.etudiants.form-step');
+    }
+
+    public function deleteStudent(Request $request)
+    {
+        $ids = $request->$ids;
+        Etudiant::whereIn('id', $ids)->delete();
+        return response()->json(['success'=> 'liste supprimée avec succès']);
+    }
+
     public function index()
     {
         $etudiants = Etudiant::where('etat_candidat', 'non_inscrit')->get(); 
@@ -39,7 +51,7 @@ class EtudiantController extends Controller
     {
         Excel::import(new EtudiantsImport, $request->file);
         
-        return redirect()->route('list-etudiants')->with('success', 'Etudiant Imported Successfully');
+        return redirect()->route('list-etudiants')->with('success', 'La liste de bacheliers a été importé avec succès');
     }
 
     public function exportEtudiants()
@@ -92,8 +104,31 @@ class EtudiantController extends Controller
                 'etat_candidat' => 'non_inscrit',
                 'adresse' => $request->adresse,
                 'date_de_naissance' => $request->date_de_naissance,              
-                'sexe' => $request->sexe,              
-                              
+                'age' => $request->age,              
+                'lieu_de_naissance' => $request->lieu_de_naissance,              
+                'niveau' => $request->niveau,              
+                'faculte' => $request->faculte,              
+                'filiere' => $request->filiere,              
+                'semestre' => $request->semestre,              
+                'diplome' => $request->diplome,              
+                'annee' => $request->annee,              
+                'numero_de_place' => $request->numero_de_place,              
+                'scolarite' => $request->scolarite,              
+                'etablissement' => $request->etablissement,              
+                'resultat' => $request->resultat,              
+                'mention' => $request->mention,              
+                'matricule_def' => $request->matricule_def,              
+                'nom_pere' => $request->nom_pere,              
+                'prenom_pere' => $request->prenom_pere,              
+                'profession_pere' => $request->profession_pere,              
+                'telephone_pere' => $request->telephone_pere,              
+                'residence_pere' => $request->residence_pere,              
+                'nom_mere' => $request->nom_mere,              
+                'prenom_mere' => $request->prenom_mere,              
+                'profession_mere' => $request->profession_mere,              
+                'telephone_mere' => $request->telephone_mere,              
+                'residence_mere' => $request->residence_mere,              
+               
             ]);
 
             if(!$create_etudiant)
@@ -111,16 +146,18 @@ class EtudiantController extends Controller
         }
     }
 
-    /**
+   /**
      * Display the specified resource.
      *
-     * @param  \App\Models\c  $c
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(c $c)
+    public function show($etudiant_id)
     {
-        //
+        $student = Etudiant::findOrFail($etudiant_id);
+        return view('admin.etudiants.show', compact('student'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

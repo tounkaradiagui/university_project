@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('telephone')->nullable();
             $table->string('role')->nullable();
             $table->string('image')->nullable();
-            $table->date('date_de_naissance')->nullable();
+            $table->string('date_de_naissance')->nullable();
             $table->string('lieu_de_naissance')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->string('password');

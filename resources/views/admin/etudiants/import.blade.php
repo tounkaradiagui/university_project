@@ -29,7 +29,7 @@
                         </div>
                         {{-- File Input --}}
                         <div class="col-sm-12 mb-3 mt-3 mb-sm-0">
-                            <span style="color:red;">*</span>Cliquez sur la bannière pour importé</label>
+                            <span style="color:red;">*</span>Cliquez sur la bannière pour importer</label>
                             <input 
                                 type="file" 
                                 class="form-control form-control-user @error('file') is-invalid @enderror" 

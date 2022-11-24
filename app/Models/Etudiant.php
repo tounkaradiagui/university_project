@@ -40,9 +40,13 @@ class Etudiant extends Model
         'residence',
         'nom_pere',
         'profession_pere',
+        'residence_pere',
+        'telephone_pere',
         'nom_mere',
         'prenom_mere',
+        'residence_mere',
         'profession_mere',
+        'telephone_mere',
     ];
 
 
@@ -52,3 +56,7 @@ class Etudiant extends Model
     //     return $this->belongsTo(Etudiant::class, 'faculte_id' );
     // }
 }
+
+
+
+

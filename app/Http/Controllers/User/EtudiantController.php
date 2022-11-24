@@ -168,7 +168,15 @@ class EtudiantController extends Controller
      */
     public function show($id)
     {
-        //
+        $student_inscris = Etudiant::findOrFail($id);
+        return view('users.etudiants.show', compact('student_inscris'));
+    }
+
+    public function deleteStudent(Request $request)
+    {
+        $ids = $request->$ids;
+        Etudiant::whereIn('id', $ids)->delete();
+        return response()->json(['success'=> 'liste supprimée avec succès']);
     }
 
     /**

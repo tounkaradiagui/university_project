@@ -85,11 +85,11 @@
                             </td>
                             <td style="display: flex">
                                 <a href="{{url('edit-etudiant-inscrit/'.$etudiant->id)}}"
-                                    class="btn btn-success m-2">
+                                    class="btn btn-success m-2" title="Valider l'inscription" >
                                     <i class="fa fa-check"></i>
                                 </a>
                               
-                                <a class="btn btn-primary m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                <a class="btn btn-primary m-2" title="Infos sur l'étudiant" href="{{route('show.etudiants.details', $etudiant->id)}}" >
                                     <i class="fas fa-info"></i>
                                 </a>
                             </td>

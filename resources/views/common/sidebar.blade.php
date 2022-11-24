@@ -36,6 +36,8 @@
         <div id="étudiants" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Etudiants:</h6>
+                <a class="collapse-item" href="{{route('get.students')}}">Student</a>
+                <a class="collapse-item" href="{{route('form.etudiant')}}">Formulaire</a>
                 <a class="collapse-item" href="{{route('list-etudiants')}}">Bacheliers CENOU</a>
                 <a class="collapse-item" href="{{route('list-inscrit')}}">Néo bacheliers inscris</a>
                 <a class="collapse-item" href="{{ route('import-etudiants') }}">Importer</a>

@@ -20,6 +20,7 @@ class EtudiantsExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
+            'Matricule',
             'Nom',
             'Prénom',
             'Sexe',
@@ -29,10 +30,14 @@ class EtudiantsExport implements FromQuery, WithHeadings, WithMapping
             'Téléphone',
             'Email',
             'Adresse',
+            'Etablissement',
+            'Mention',
+            'Scolarite',
             'Faculté',
             'Niveau',
             'Semestre',
             'Filière',
+            'Statut',
             'Résidence'
         ];
     }
@@ -40,6 +45,7 @@ class EtudiantsExport implements FromQuery, WithHeadings, WithMapping
     public function map($row):array
     {
         return[
+            $row->matricule,
             $row->nom,
             $row->prenom,
             $row->sexe,
@@ -49,10 +55,14 @@ class EtudiantsExport implements FromQuery, WithHeadings, WithMapping
             $row->telephone,
             $row->email,
             $row->adresse,
+            $row->etablissement,
+            $row->mention,
+            $row->scolarite,
             $row->faculte,
             $row->niveau,
             $row->semestre,
             $row->filiere,
+            $row->statut,
             $row->residence,
         ];
     }

@@ -93,12 +93,14 @@
                                     class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
+
                                 <a class="btn btn-danger m-2"  href="{{url('/inscritible/'.$inscrit->id.'/delete')}}" 
                                 onclick="return confirm('Voulez-vous vraiment supprimer cet étudiant ?')" 
                                 class="btn btn-danger btn-sm" >
                                     <i class="fas fa-trash"></i>
                                 </a>
-                                <a class="btn btn-success m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                
+                                <a class="btn btn-success m-2" href="{{route('show.details', $inscrit->id)}}" >
                                     <i class="fas fa-info"></i>
                                 </a>
 

@@ -33,7 +33,14 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Liste de nouveaux bacheliers 2022 - 2023</h6>
+        <h6 class="m-0 font-weight-bold text-primary">
+            <!-- <a href="" class="float-start">
+            Liste de nouveaux bacheliers 2022 - 2023
+            </a> <i class="fas fa-trash"></i>-->
+            <a href="" id="deleteAllSelectRecord" class="btn btn-sm btn-danger float-end">
+                 Tout supprimé
+            </a>
+        </h6>
 
     </div>
     <div class="card-body">
@@ -41,6 +48,9 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
+                        <th>
+                            <input type="checkbox" id="chkCheckAll">
+                        </th>
                         <th>Matricule</th>
                         <th>Nom</th>
                         <th>Prénom</th>
@@ -62,7 +72,10 @@
                 </thead>
                 <tbody>
                         @foreach($etudiants as $etudiant)
-                        <tr>
+                        <tr id="sid{{$etudiant->id}}">
+                            <td>
+                                <input type="checkbox" name="ids" class="checkBoxClass" value="{{$etudiant->id}}">
+                            </td>
                             <td>{{ $etudiant->matricule }}</td>
                             <td>{{ $etudiant->nom }}</td>
                             <td>{{ $etudiant->prenom }}</td>
@@ -92,10 +105,14 @@
                                     class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+
+                                <a class="btn btn-danger m-2"  href="{{url('/inscritible/'.$etudiant->id.'/delete')}}" 
+                                onclick="return confirm('Voulez-vous vraiment supprimer cet étudiant ?')" 
+                                class="btn btn-danger btn-sm" >
                                     <i class="fas fa-trash"></i>
                                 </a>
-                                <a class="btn btn-success m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+
+                                <a class="btn btn-success m-2" href="{{route('show.details', $etudiant->id)}}" >
                                     <i class="fas fa-info"></i>
                                 </a>
 
