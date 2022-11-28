@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     });
     
     Route::get('/form', [App\Http\Controllers\Admin\EtudiantController::class, 'form'])->name('form.etudiant');
+    Route::get('/chart', [App\Http\Controllers\ChartsController::class, 'index'])->name('chart.etudiant');
 
     Route::get('/profile', [App\Http\Controllers\Admin\DashboardController::class, 'getProfile'])->name('detail');
     Route::post('/update/profile', [App\Http\Controllers\Admin\DashboardController::class, 'updateProfile'] )->name('update');
@@ -67,6 +68,9 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     Route::get('edit-etudiant/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'editEtudiant'])->name('admin.etudiant.edit');
     Route::put('update/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'updateEtudiant'])->name('update-etudiant');
     Route::get('/inscritible/{inscrit_id}/delete', [App\Http\Controllers\Admin\EtudiantController::class, 'deleteEtudiant'])->name('delete-etudiant');
+    // Route::get('inscritible/{id}', [App\Http\Controllers\Admin\EtudiantController::class, 'deleteEtudiant'])->name('delete-etudiant');
+    Route::get('inscritible/restore/{inscrit_id}', [App\Http\Controllers\Admin\EtudiantController::class, 'restoreEtudiant'])->name('restore-etudiant');
+
 
     Route::get('/list-inscrit', [App\Http\Controllers\Admin\EtudiantController::class, 'inscrit'])->name('list-inscrit');
 
@@ -90,7 +94,8 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
     Route::get('/get-students', [App\Http\Controllers\StudentController::class, 'index'])->name('get.students');
     Route::post('/add-students', [App\Http\Controllers\StudentController::class, 'addStudent'])->name('add.students');
-
+    
+    Route::get('/get-students/archives', [App\Http\Controllers\Admin\EtudiantController::class, 'archive'])->name('get.students-archives');
 });
 
 

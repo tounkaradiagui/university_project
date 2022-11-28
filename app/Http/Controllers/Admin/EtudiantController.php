@@ -23,16 +23,43 @@ class EtudiantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function deleteEtudiant($inscrit_id)
+    {
+        Etudiant::find($inscrit_id)->delete();
+        
+        return redirect()->back()->with('success', 'Etudiant archivé avec succès');
+    }
+    
+
+    public function archive(Request $request)
+    {
+        $archives = Etudiant::onlyTrashed()->orderBy('updated_at', 'DESC')->get();
+        if($request->has('view_delete'))
+        {
+            $archives = Etudiant::onlyTrashed();
+        }
+        return view ('admin.etudiants.archive', compact('archives'));
+    }
+
+
     public function form()
     {
         return view('admin.etudiants.form-step');
     }
 
-    public function deleteStudent(Request $request)
+    // public function deleteStudent(Request $request)
+    // {
+    //     $ids = $request->$ids;
+    //     Etudiant::whereIn('id', $ids)->delete();
+    //     return response()->json(['success'=> 'liste supprimée avec succès']);
+    // }
+
+    public function restoreEtudiant($id)
     {
-        $ids = $request->$ids;
-        Etudiant::whereIn('id', $ids)->delete();
-        return response()->json(['success'=> 'liste supprimée avec succès']);
+        $etudes = Etudiant::withTrashed()->find($id)->restore();
+        return redirect()->route('list-etudiants')->with('success', "Etudiant restauré avec succès");
+
     }
 
     public function index()
@@ -283,13 +310,7 @@ class EtudiantController extends Controller
 
     }
 
-    public function deleteEtudiant(int $inscrit_id)
-    {
-        $etudiant_inscrit = Etudiant::findOrFail($inscrit_id);
-        
-        $etudiant_inscrit->delete();
-        return redirect()->back()->with('success', 'La suppression a été effectuée');
-    }
+
 
 
     // public function importEtud()

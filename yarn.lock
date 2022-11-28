@@ -256,6 +256,11 @@
   dependencies:
     "function-bind" "^1.1.1"
 
+"highcharts@^10.3.1":
+  "integrity" "sha512-8UgVcLmgpiYwnsII0Ht76O+GRutfbrLslZFH3c53fXgl3aZ6NRB4mW5qsIyfsUExMny/n9JqYO/BFNejOKC6AA=="
+  "resolved" "https://registry.npmjs.org/highcharts/-/highcharts-10.3.1.tgz"
+  "version" "10.3.1"
+
 "immutable@^4.0.0":
   "integrity" "sha512-oNkuqVTA8jqG1Q6c+UglTOD1xhC1BtjKI7XkCXRkZHrN5m18/XsnUp8Q89GkQO/z+0WjonSvl0FLhDYftp46nQ=="
   "resolved" "https://registry.npmjs.org/immutable/-/immutable-4.1.0.tgz"

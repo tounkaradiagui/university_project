@@ -34,12 +34,13 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-            <!-- <a href="" class="float-start">
             Liste de nouveaux bacheliers 2022 - 2023
+            <!-- <a href="" class="float-start">
+            
             </a> <i class="fas fa-trash"></i>-->
-            <a href="" id="deleteAllSelectRecord" class="btn btn-sm btn-danger float-end">
+            <!-- <a href="" id="deleteAllSelectRecord" class="btn btn-sm btn-danger float-end">
                  Tout supprimé
-            </a>
+            </a> -->
         </h6>
 
     </div>
@@ -48,9 +49,9 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>
+                        <!-- <th>
                             <input type="checkbox" id="chkCheckAll">
-                        </th>
+                        </th> -->
                         <th>Matricule</th>
                         <th>Nom</th>
                         <th>Prénom</th>
@@ -73,9 +74,9 @@
                 <tbody>
                         @foreach($etudiants as $etudiant)
                         <tr id="sid{{$etudiant->id}}">
-                            <td>
+                            <!-- <td>
                                 <input type="checkbox" name="ids" class="checkBoxClass" value="{{$etudiant->id}}">
-                            </td>
+                            </td> -->
                             <td>{{ $etudiant->matricule }}</td>
                             <td>{{ $etudiant->nom }}</td>
                             <td>{{ $etudiant->prenom }}</td>
@@ -106,18 +107,22 @@
                                     <i class="fa fa-pen"></i>
                                 </a>
 
-                                <a class="btn btn-danger m-2"  href="{{url('/inscritible/'.$etudiant->id.'/delete')}}" 
-                                onclick="return confirm('Voulez-vous vraiment supprimer cet étudiant ?')" 
-                                class="btn btn-danger btn-sm" >
-                                    <i class="fas fa-trash"></i>
+                                <!-- <form action="{{route('restore-etudiant', $etudiant->id)}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="method" value="DELETE">
+                                    <button type="button" class="btn btn-danger" title="Supprimé"
+
+                                    ><i class="fas fa-trash"></i></button>
+                                </form> -->
+
+                                <a href="{{url('/inscritible/'.$etudiant->id.'/delete')}}" 
+                                onclick="return confirm('Voulez-vous vraiment archiver cet étudiant ?')" 
+                                class="btn btn-danger m-2" >
+                                    <i class="fas fa-archive"></i>
                                 </a>
 
                                 <a class="btn btn-success m-2" href="{{route('show.details', $etudiant->id)}}" >
                                     <i class="fas fa-info"></i>
-                                </a>
-
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
-                                    <i class="fas fa-archive"></i>
                                 </a>
                             </td>
                         </tr>
@@ -125,7 +130,6 @@
                 </tbody>
             </table>
 
-         {{--   {{ $users->links() }} --}}
         </div>
     </div>
 </div>

@@ -95,18 +95,15 @@
                                 </a>
 
                                 <a class="btn btn-danger m-2"  href="{{url('/inscritible/'.$inscrit->id.'/delete')}}" 
-                                onclick="return confirm('Voulez-vous vraiment supprimer cet étudiant ?')" 
+                                onclick="return confirm('Voulez-vous vraiment archiver cet étudiant ?')" 
                                 class="btn btn-danger btn-sm" >
-                                    <i class="fas fa-trash"></i>
+                                    <i class="fas fa-archive"></i>
                                 </a>
                                 
                                 <a class="btn btn-success m-2" href="{{route('show.details', $inscrit->id)}}" >
                                     <i class="fas fa-info"></i>
                                 </a>
 
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
-                                    <i class="fas fa-archive"></i>
-                                </a>
                             </td>
                         </tr>
                         @endforeach

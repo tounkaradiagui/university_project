@@ -69,9 +69,9 @@
                                 <div class="text-center">
                                     <a class="small" href="{{route('password.request')}}">Mot de passe oublié ?</a>
                                 </div>
-                                <div class="text-center">
+                               {{-- <div class="text-center">
                                     <a class="small" href="{{route('register')}}">Créer un compte ici !</a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
